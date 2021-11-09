@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace LBHounslow\GovPay\Builder;
 
 use LBHounslow\GovPay\Enum\DateFormatEnum;
-use LBHounslow\GovPay\Validator\Repository\QueryStringValidator;
 use LBHounslow\GovPay\Exception\ValidationException;
+use LBHounslow\GovPay\Validator\Repository\QueryStringValidator;
 
 /**
  * Builds a validated and correctly encoded querystring for api searches

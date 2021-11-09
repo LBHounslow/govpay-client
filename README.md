@@ -1,6 +1,12 @@
-## Hounslow GovPay Client
+## Hounslow GOV.UK Pay Client
 
 This is a client for the [GOV.UK Payments API](https://www.payments.service.gov.uk) used by [London Borough of Hounslow](https://www.hounslow.gov.uk).
+
+`composer require lb-hounslow/govpay-client`
+
+Create your own [API key](https://docs.payments.service.gov.uk/quick_start_guide/#test-the-api) with [GOV.UK Pay](https://www.payments.service.gov.uk) and use this key in the [client](src/Client/Client.php). Their technical documentation is [here](https://docs.payments.service.gov.uk). You can also load their [OpenAPI JSON](https://raw.githubusercontent.com/alphagov/pay-publicapi/master/openapi/publicapi_spec.json) into [swagger editor](https://editor.swagger.io) to interact with their API.
+
+For more on how to use this client, see [usage documentation](docs/USAGE.md)
 
 ### Releases
 
@@ -12,19 +18,19 @@ This is a client for the [GOV.UK Payments API](https://www.payments.service.gov.
 - [Git](https://git-scm.com/downloads)
 - [Composer](https://getcomposer.org)
 
-### Setup
-
-- Run `composer require lb-hounslow/govpay-client`.
-- See [example.php](example.php) for usage.
-- Requires the `API url`, `Client ID`, `Client Secret` and an active `user account` with the correct roles.
-
-### Usage
-
-See [usage documentation](docs/USAGE.md)
-
 ### Tests
 
-Run `./vendor/bin/phpunit tests`
+Run `composer test`
+
+```
+Code Coverage Report:      
+  2021-11-08 21:51:05      
+                           
+ Summary:                  
+  Classes: 62.50% (15/24)  
+  Methods: 88.10% (185/210)
+  Lines:   90.23% (471/522)
+```
 
 ### Contributing
 

@@ -23,7 +23,7 @@ try {
     /** @var Payment $payment */
     $payment = $govPayClient
         ->getRepository(Payment::class) /** @var PaymentRepository */
-        ->find('g84id4l6cq7o6mg0vrf4sfr0op');
+        ->find('INSERT-PAYMENT-ID');
 
     echo $payment->getPaymentId() . ' '
         . $payment->getDescription() . ' '
@@ -39,9 +39,10 @@ try {
     /** @var PaymentEvent[] $results */
     $results = $govPayClient
         ->getRepository(Payment::class) /** @var PaymentRepository */
-        ->fetchPaymentEvents('k308j20dfo10e1673ie76eg4qb');
+        ->fetchPaymentEvents('INSERT-PAYMENT-ID');
 
     $paymentEvent = array_shift($results);  // grab the first one
+
     echo $paymentEvent->getPaymentId() . ' '
         . $paymentEvent->getState()->getStatus()
         . ($paymentEvent->getState()->isFinished() ? ' is finished' : '') . PHP_EOL;
@@ -56,9 +57,10 @@ try {
     /** @var Refund[] $results */
     $results = $govPayClient
         ->getRepository(Payment::class) /** @var PaymentRepository */
-        ->fetchPaymentRefunds('26bspqeuo2e1b8ai8kgdkcja0q');
+        ->fetchPaymentRefunds('INSERT-PAYMENT-ID');
 
     $refund = array_shift($results);  // grab the first one
+
     echo $refund->getPaymentId() . ' '
         . $refund->getCreatedDate() . ' '
         . $refund->getAmount() . ' '

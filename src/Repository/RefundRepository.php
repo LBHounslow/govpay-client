@@ -15,8 +15,6 @@ use LBHounslow\GovPay\Response\ApiResponse;
 
 class RefundRepository extends BaseEntityRepository
 {
-    const REFUNDS_SEARCH = '/v1/refunds'; // /v1/refunds?{QUERY_PARAMETERS}
-
     /**
      * @param Client $client
      * @param string $entityClass
@@ -38,7 +36,7 @@ class RefundRepository extends BaseEntityRepository
         $results = [];
 
         /** @var ApiResponse $response */
-        $response = $this->client->get(self::REFUNDS_SEARCH . $this->queryStringBuilder->build());
+        $response = $this->client->get(Client::SEARCH_REFUNDS . $this->queryStringBuilder->build());
 
         /** @var array $row */
         foreach ($response->fetchAll() as $row) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LBHounslow\GovPay\Entity;
 
-class Payment implements ArrayToEntityInterface, EntityToArrayInterface
+class Payment implements ArrayToEntityInterface
 {
     /**
      * @var string
@@ -589,13 +589,5 @@ class Payment implements ArrayToEntityInterface, EntityToArrayInterface
         $this->setLinks($links);
 
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-
     }
 }

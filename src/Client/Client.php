@@ -18,10 +18,11 @@ class Client
     const API_BASE_URL = 'https://publicapi.payments.service.gov.uk';
     const CONNECT_TIMEOUT = 5;
 
-    const PAYMENTS_ENDPOINT = '/v1/payments';
-    const PAYMENTS_EVENTS_ENDPOINT = '/v1/payments/%s/events';
-    const PAYMENTS_REFUNDS_ENDPOINT = '/v1/payments/%s/refunds';
-    const REFUNDS_ENDPOINT = '/v1/refunds';
+    const SEARCH_PAYMENTS = '/v1/payments';             // /v1/payments?{QUERY_PARAMETERS}
+    const PAYMENT = '/v1/payments/%s';                  // /v1/payments/{PAYMENT_ID}
+    const PAYMENT_REFUNDS = '/v1/payments/%s/refunds';  // /v1/payments/{PAYMENT_ID}/refunds
+    const PAYMENT_EVENTS = '/v1/payments/%s/events';    // /v1/payments/{PAYMENT_ID}/events
+    const SEARCH_REFUNDS = '/v1/refunds';               // /v1/refunds?{QUERY_PARAMETERS}
 
     /**
      * @var GuzzleClient

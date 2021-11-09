@@ -7,8 +7,8 @@ namespace Tests\Unit\Factory;
 use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Entity\Refund;
 use LBHounslow\GovPay\Enum\DateFormatEnum;
-use LBHounslow\GovPay\Exception\InvalidEntityClassException;
 use LBHounslow\GovPay\Exception\EntityClassNotFoundException;
+use LBHounslow\GovPay\Exception\InvalidEntityClassException;
 use LBHounslow\GovPay\Factory\ArrayToEntityFactory;
 use Tests\Unit\AbstractTestCase;
 

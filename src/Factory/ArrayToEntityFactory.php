@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace LBHounslow\GovPay\Factory;
 
 use LBHounslow\GovPay\Entity\ArrayToEntityInterface;
-use LBHounslow\GovPay\Exception\InvalidEntityClassException;
 use LBHounslow\GovPay\Exception\EntityClassNotFoundException;
+use LBHounslow\GovPay\Exception\InvalidEntityClassException;
 
 class ArrayToEntityFactory implements FactoryInterface
 {

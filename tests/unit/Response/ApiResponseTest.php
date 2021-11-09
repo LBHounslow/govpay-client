@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Response;
 
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use LBHounslow\GovPay\Enum\HttpStatusCodeEnum;
 use LBHounslow\GovPay\Exception\InvalidApiResponseException;
 use LBHounslow\GovPay\Response\ApiResponse;
 use Tests\Unit\AbstractTestCase;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 class ApiResponseTest extends AbstractTestCase
 {

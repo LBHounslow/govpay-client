@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Mock data for unit tests
+ * @link https://docs.payments.service.gov.uk
+ */
 abstract class AbstractTestCase extends TestCase
 {
     const SEARCH_RESULTS_TOTAL = 100;
@@ -15,7 +21,6 @@ abstract class AbstractTestCase extends TestCase
     const SEARCH_LINKS_PREV_HREF = 'https://api.url?display_size=20&page=1';
     const SEARCH_LINKS_NEXT_HREF = 'https://api.url?display_size=20&page=3';
 
-    // Reference https://docs.payments.service.gov.uk/reporting/#get-information-about-a-single-payment
     const PAYMENT_CREATED_DATE = '2021-11-07T14:08:26.988Z';
     const PAYMENT_UPDATED_DATE = '2021-11-07T14:08:26.988Z';
     const PAYMENT_AMOUNT = 3750;

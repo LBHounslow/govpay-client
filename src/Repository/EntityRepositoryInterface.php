@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LBHounslow\GovPay\Repository;
 
 use LBHounslow\GovPay\Client\Client;

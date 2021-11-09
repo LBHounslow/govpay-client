@@ -56,7 +56,7 @@ try {
 
 #### Search all payments with filtering
 
-[PaymentRepository](src/Repository/PaymentRepository.php) offers all filters supported by GOV.UK Pay as setters.
+[PaymentRepository](../src/Repository/PaymentRepository.php) offers all filters supported by GOV.UK Pay as setters.
 
 ```
 try {
@@ -77,7 +77,7 @@ try {
 
 #### Search all refunds with filtering
 
-[RefundRepository](src/Repository/RefundRepository.php) offers all filters supported by GOV.UK Pay as setters.
+[RefundRepository](../src/Repository/RefundRepository.php) offers all filters supported by GOV.UK Pay as setters.
 
 ```
 try {
@@ -94,4 +94,4 @@ try {
 }
 ```
 
-For examples, see [example.php](example.php).
+For examples, see [example.php](../example.php).

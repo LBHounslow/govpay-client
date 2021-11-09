@@ -7,13 +7,13 @@ namespace Tests\Unit\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\InvalidArgumentException as GuzzleInvalidArgumentException;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use LBHounslow\GovPay\Client\Client;
 use LBHounslow\GovPay\Client\Client as GovPayClient;
 use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Enum\HttpStatusCodeEnum;
 use LBHounslow\GovPay\Exception\ApiException;
 use LBHounslow\GovPay\Exception\RepositoryNotFoundException;
 use LBHounslow\GovPay\Repository\EntityRepositoryInterface;
-use LBHounslow\GovPay\Repository\PaymentRepository;
 use LBHounslow\GovPay\Response\ApiResponse;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\Unit\AbstractTestCase;
@@ -63,7 +63,7 @@ class ClientTest extends AbstractTestCase
             ->willThrowException(new GuzzleInvalidArgumentException('Guzzle error'));
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Guzzle error');
-        $this->govPayClient->post(PaymentRepository::PAYMENT);
+        $this->govPayClient->post(Client::PAYMENT);
     }
 
     /**
@@ -79,7 +79,7 @@ class ClientTest extends AbstractTestCase
             ->willReturn($response);
 
         /** @var ApiResponse $apiResponse */
-        $apiResponse = $this->govPayClient->post(PaymentRepository::PAYMENT);
+        $apiResponse = $this->govPayClient->post(Client::PAYMENT);
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
         $this->assertEquals($isSuccessful, $apiResponse->isSuccessful());
@@ -102,7 +102,7 @@ class ClientTest extends AbstractTestCase
             ->willThrowException(new GuzzleInvalidArgumentException('Guzzle error'));
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Guzzle error');
-        $this->govPayClient->get(PaymentRepository::PAYMENT);
+        $this->govPayClient->get(Client::PAYMENT);
     }
 
     /**
@@ -118,7 +118,7 @@ class ClientTest extends AbstractTestCase
             ->willReturn($response);
 
         /** @var ApiResponse $apiResponse */
-        $apiResponse = $this->govPayClient->get(PaymentRepository::PAYMENT);
+        $apiResponse = $this->govPayClient->get(Client::PAYMENT);
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
         $this->assertEquals($isSuccessful, $apiResponse->isSuccessful());
