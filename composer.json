@@ -1,0 +1,32 @@
+{
+  "name": "lb-hounslow/govpay-client",
+  "description": "Hounslow GOV.UK Pay Client",
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": ">=7.4.2",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^7.4"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "LBHounslow\\GovPay\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Unit\\": "tests/unit/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "scripts": {
+    "test": [
+      "./vendor/bin/phpunit tests --colors"
+    ]
+  }
+}
