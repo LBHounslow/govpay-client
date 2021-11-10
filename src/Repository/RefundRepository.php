@@ -6,6 +6,7 @@ namespace LBHounslow\GovPay\Repository;
 
 use GuzzleHttp\Exception\GuzzleException;
 use LBHounslow\GovPay\Client\Client;
+use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Refund;
 use LBHounslow\GovPay\Exception\ApiException;
 use LBHounslow\GovPay\Exception\InvalidEntityClassException;
@@ -25,7 +26,7 @@ class RefundRepository extends BaseEntityRepository
     }
 
     /**
-     * @return array
+     * @return PaginatedResults
      * @throws ApiException
      * @throws GuzzleException
      * @throws InvalidEntityClassException
@@ -33,18 +34,22 @@ class RefundRepository extends BaseEntityRepository
      */
     public function fetchAll()
     {
-        $results = [];
-
         /** @var ApiResponse $response */
         $response = $this->client->get(Client::SEARCH_REFUNDS . $this->queryStringBuilder->build());
 
+        $paginatedResults = (new PaginatedResults())
+            ->fromArray($response->getBody());
+
+        $results = [];
+
         /** @var array $row */
-        foreach ($response->fetchAll() as $row) {
+        foreach ($paginatedResults->getResults() as $row) {
             /** @var Refund $refund */
             $refund = (new ArrayToEntityFactory($row, Refund::class))->factory();
             $results[] = $refund;
         }
 
-        return $results;
+        return $paginatedResults
+            ->setResults($results);
     }
 }

@@ -83,15 +83,15 @@ class ClientTest extends AbstractTestCase
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
         $this->assertEquals($isSuccessful, $apiResponse->isSuccessful());
-        $this->assertEquals($expectedPayload, $apiResponse->fetchOne());
+        $this->assertEquals($expectedPayload, $apiResponse->getBody());
     }
 
     public function successfulPostResponseDataProvider()
     {
         return [
             [new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_ARRAY)), true, self::PAYMENT_ARRAY],
-            [new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, []],
-            [new GuzzleResponse(HttpStatusCodeEnum::INTERNAL_SERVER_ERROR, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, []]
+            [new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, self::ERROR_RESPONSE_WITH_FIELD],
+            [new GuzzleResponse(HttpStatusCodeEnum::INTERNAL_SERVER_ERROR, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, self::ERROR_RESPONSE_WITH_FIELD]
         ];
     }
 
@@ -122,15 +122,15 @@ class ClientTest extends AbstractTestCase
 
         $this->assertInstanceOf(ApiResponse::class, $apiResponse);
         $this->assertEquals($isSuccessful, $apiResponse->isSuccessful());
-        $this->assertEquals($expectedPayload, $apiResponse->fetchOne());
+        $this->assertEquals($expectedPayload, $apiResponse->getBody());
     }
 
     public function successfulGetResponseDataProvider()
     {
         return [
             [new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_ARRAY)), true, self::PAYMENT_ARRAY],
-            [new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, []],
-            [new GuzzleResponse(HttpStatusCodeEnum::INTERNAL_SERVER_ERROR, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, []]
+            [new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, self::ERROR_RESPONSE_WITH_FIELD],
+            [new GuzzleResponse(HttpStatusCodeEnum::INTERNAL_SERVER_ERROR, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD)), false, self::ERROR_RESPONSE_WITH_FIELD]
         ];
     }
 }

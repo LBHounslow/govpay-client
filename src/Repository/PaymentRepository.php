@@ -6,6 +6,7 @@ namespace LBHounslow\GovPay\Repository;
 
 use GuzzleHttp\Exception\GuzzleException;
 use LBHounslow\GovPay\Client\Client;
+use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Entity\PaymentEvent;
 use LBHounslow\GovPay\Entity\Refund;
@@ -109,7 +110,7 @@ class PaymentRepository extends BaseEntityRepository
         $response = $this->client->get(sprintf(Client::PAYMENT, $id));
 
         /** @var Payment $payment */
-        $payment = (new ArrayToEntityFactory($response->fetchOne(), Payment::class))->factory();
+        $payment = (new ArrayToEntityFactory($response->getBody(), Payment::class))->factory();
 
         return $payment;
     }
@@ -129,7 +130,7 @@ class PaymentRepository extends BaseEntityRepository
         $response = $this->client->get(sprintf(Client::PAYMENT_EVENTS, $id));
 
         /** @var array $row */
-        foreach ($response->fetchAll() as $row) {
+        foreach ($response->getBody() as $row) {
             /** @var PaymentEvent $paymentEvent */
             $paymentEvent = (new ArrayToEntityFactory($row, PaymentEvent::class))->factory();
             $results[] = $paymentEvent;
@@ -153,7 +154,7 @@ class PaymentRepository extends BaseEntityRepository
         $response = $this->client->get(sprintf(Client::PAYMENT_REFUNDS, $id));
 
         /** @var array $row */
-        foreach ($response->fetchAll() as $row) {
+        foreach ($response->getBody() as $row) {
             /** @var PaymentEvent $paymentEvent */
             $paymentEvent = (new ArrayToEntityFactory($row, Refund::class))->factory();
             $paymentEvent->setPaymentId($id);
@@ -164,7 +165,7 @@ class PaymentRepository extends BaseEntityRepository
     }
 
     /**
-     * @return array
+     * @return PaginatedResults
      * @throws ApiException
      * @throws GuzzleException
      * @throws InvalidEntityClassException
@@ -172,18 +173,22 @@ class PaymentRepository extends BaseEntityRepository
      */
     public function fetchAll()
     {
-        $results = [];
-
         /** @var ApiResponse $response */
         $response = $this->client->get(Client::SEARCH_PAYMENTS . $this->queryStringBuilder->build());
 
+        $paginatedResults = (new PaginatedResults())
+            ->fromArray($response->getBody());
+
+        $results = [];
+
         /** @var array $row */
-        foreach ($response->fetchAll() as $row) {
+        foreach ($paginatedResults->getResults() as $row) {
             /** @var Payment $payment */
             $payment = (new ArrayToEntityFactory($row, Payment::class))->factory();
             $results[] = $payment;
         }
 
-        return $results;
+        return $paginatedResults
+            ->setResults($results);
     }
 }
