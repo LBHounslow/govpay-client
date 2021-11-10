@@ -145,9 +145,9 @@ abstract class AbstractTestCase extends TestCase
     ];
 
     const SEARCH_RESULTS_EMPTY_ARRAY = [
-        'total' => self::SEARCH_RESULTS_TOTAL,
-        'count' => self::SEARCH_RESULTS_COUNT,
-        'page' => self::SEARCH_RESULTS_PAGE,
+        'total' => 0,
+        'count' => 0,
+        'page' => 1,
         'results' => []
     ];
 

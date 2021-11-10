@@ -6,6 +6,7 @@ namespace Tests\Unit\Repository;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use LBHounslow\GovPay\Client\Client as GovPayClient;
+use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Refund;
 use LBHounslow\GovPay\Enum\HttpStatusCodeEnum;
 use LBHounslow\GovPay\Repository\RefundRepository;
@@ -40,6 +41,21 @@ class RefundRepositoryTest extends AbstractTestCase
         $this->assertEquals(Refund::class, $this->refundRepository->getEntityClass());
     }
 
+    public function testThatFetchAllWithWithNoResponseDataReturnsEmptyPaginatedResults()
+    {
+        $this->mockGovPayClient
+            ->method('get')
+            ->willReturn(
+                new ApiResponse(
+                    new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::SEARCH_RESULTS_EMPTY_ARRAY))
+                )
+            );
+        $result = $this->refundRepository->fetchAll();
+        $this->assertInstanceOf(PaginatedResults::class, $result);
+        $this->assertEquals([], $result->getResults());
+        $this->assertEquals(0, $result->getTotal());
+    }
+
     public function testThatFetchAllWithNoQueryStringReturnsPaymentResults()
     {
         $this->mockGovPayClient
@@ -49,11 +65,10 @@ class RefundRepositoryTest extends AbstractTestCase
                     new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::REFUND_SEARCH_RESULTS_ARRAY))
                 )
             );
-        /** @var Refund[] $results */
-        $results = $this->refundRepository->fetchAll();
-        $this->assertIsArray($results);
-        $this->assertTrue(isset($results[0]));
-        $this->assertInstanceOf(Refund::class, $results[0]);
-        $this->assertEquals(self::REFUND_REFUND_ID, $results[0]->getRefundId());
+        $result = $this->refundRepository->fetchAll();
+        $this->assertInstanceOf(PaginatedResults::class, $result);
+        $this->assertTrue(isset($result->getResults()[0]));
+        $this->assertInstanceOf(Refund::class, $result->getResults()[0]);
+        $this->assertEquals(self::REFUND_REFUND_ID, $result->getResults()[0]->getRefundId());
     }
 }
