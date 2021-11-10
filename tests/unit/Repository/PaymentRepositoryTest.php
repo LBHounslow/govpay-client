@@ -6,6 +6,7 @@ namespace Tests\Unit\Repository;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use LBHounslow\GovPay\Client\Client as GovPayClient;
+use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Entity\PaymentEvent;
 use LBHounslow\GovPay\Entity\Refund;
@@ -51,10 +52,9 @@ class PaymentRepositoryTest extends AbstractTestCase
                     new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_ARRAY))
                 )
             );
-        /** @var Payment $payment */
-        $payment = $this->paymentRepository->find(self::PAYMENT_PAYMENT_ID);
-        $this->assertInstanceOf(Payment::class, $payment);
-        $this->assertEquals(self::PAYMENT_PAYMENT_ID, $payment->getPaymentId());
+        $result = $this->paymentRepository->find(self::PAYMENT_PAYMENT_ID);
+        $this->assertInstanceOf(Payment::class, $result);
+        $this->assertEquals(self::PAYMENT_PAYMENT_ID, $result->getPaymentId());
     }
 
     public function testItFetchesPaymentEventsForPayment()
@@ -66,12 +66,10 @@ class PaymentRepositoryTest extends AbstractTestCase
                     new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_EVENTS_RESULTS_ARRAY))
                 )
             );
-        /** @var PaymentEvent[] $results */
-        $results = $this->paymentRepository->fetchPaymentEvents(self::PAYMENT_PAYMENT_ID);
-        $this->assertIsArray($results);
-        $this->assertTrue(isset($results[0]));
-        $this->assertInstanceOf(PaymentEvent::class, $results[0]);
-        $this->assertEquals(self::PAYMENT_PAYMENT_ID, $results[0]->getPaymentId());
+        $result = $this->paymentRepository->fetchPaymentEvents(self::PAYMENT_PAYMENT_ID);
+        $this->assertTrue(isset($result[0]));
+        $this->assertInstanceOf(PaymentEvent::class, $result[0]);
+        $this->assertEquals(self::PAYMENT_PAYMENT_ID, $result[0]->getPaymentId());
     }
 
     public function testItFetchesPaymentRefundsForPayment()
@@ -83,15 +81,29 @@ class PaymentRepositoryTest extends AbstractTestCase
                     new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_REFUNDS_RESULTS_ARRAY))
                 )
             );
-        /** @var Refund[] $results */
-        $results = $this->paymentRepository->fetchPaymentRefunds(self::PAYMENT_PAYMENT_ID);
-        $this->assertIsArray($results);
-        $this->assertTrue(isset($results[0]));
-        $this->assertInstanceOf(Refund::class, $results[0]);
-        $this->assertEquals(self::REFUND_REFUND_ID, $results[0]->getRefundId());
+        $result = $this->paymentRepository->fetchPaymentRefunds(self::PAYMENT_PAYMENT_ID);
+        $this->assertIsArray($result);
+        $this->assertTrue(isset($result[0]));
+        $this->assertInstanceOf(Refund::class, $result[0]);
+        $this->assertEquals(self::REFUND_REFUND_ID, $result[0]->getRefundId());
     }
 
-    public function testThatFetchAllWithNoQueryStringReturnsPaymentResults()
+    public function testThatFetchAllWithWithNoResponseDataReturnsEmptyPaginatedResults()
+    {
+        $this->mockGovPayClient
+            ->method('get')
+            ->willReturn(
+                new ApiResponse(
+                    new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::SEARCH_RESULTS_EMPTY_ARRAY))
+                )
+            );
+        $result = $this->paymentRepository->fetchAll();
+        $this->assertInstanceOf(PaginatedResults::class, $result);
+        $this->assertEquals([], $result->getResults());
+        $this->assertEquals(0, $result->getTotal());
+    }
+
+    public function testThatFetchAllWithPaymentResponseDataReturnsPaginatedResults()
     {
         $this->mockGovPayClient
             ->method('get')
@@ -100,11 +112,10 @@ class PaymentRepositoryTest extends AbstractTestCase
                     new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_SEARCH_RESULTS_ARRAY))
                 )
             );
-        /** @var Payment[] $results */
-        $results = $this->paymentRepository->fetchAll();
-        $this->assertIsArray($results);
-        $this->assertTrue(isset($results[0]));
-        $this->assertInstanceOf(Payment::class, $results[0]);
-        $this->assertEquals(self::PAYMENT_PAYMENT_ID, $results[0]->getPaymentId());
+        $result = $this->paymentRepository->fetchAll();
+        $this->assertInstanceOf(PaginatedResults::class, $result);
+        $this->assertTrue(isset($result->getResults()[0]));
+        $this->assertInstanceOf(Payment::class, $result->getResults()[0]);
+        $this->assertEquals(self::PAYMENT_PAYMENT_ID, $result->getResults()[0]->getPaymentId());
     }
 }

@@ -3,6 +3,7 @@ require_once 'vendor/autoload.php';
 
 use GuzzleHttp\Client as GuzzleClient;
 use LBHounslow\GovPay\Client\Client as GovPayClient;
+use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Entity\PaymentEvent;
 use LBHounslow\GovPay\Entity\Refund;
@@ -73,15 +74,16 @@ try {
 /*** SEARCH ALL PAYMENTS **/
 
 try {
-    /** @var Payment[] $results */
-    $results = $govPayClient
+    /** @var PaginatedResults $paginatedResults */
+    $paginatedResults = $govPayClient
         ->getRepository(Payment::class) /** @var PaymentRepository */
         ->setFromDate('2021-10-01 00:00:00')
         ->setToDate('2021-10-31 23:59:59')
         ->setPerPage(20)
         ->fetchAll();
 
-    $payment = array_shift($results);  // grab the first one
+    $payments = $paginatedResults->getResults();
+    $payment = array_shift($payments);  // grab the first one
 
     echo $payment->getPaymentId() . ' '
         . $payment->getDescription() . ' '
@@ -94,15 +96,16 @@ try {
 /*** SEARCH ALL REFUNDS **/
 
 try {
-    /** @var Refund[] $results */
-    $results = $govPayClient
+    /** @var PaginatedResults $paginatedResults */
+    $paginatedResults = $govPayClient
         ->getRepository(Refund::class) /** @var RefundRepository */
         ->setFromDate('2021-10-01 00:00:00')
         ->setToDate('2021-10-31 23:59:59')
         ->setPerPage(20)
         ->fetchAll();
 
-    $refund = array_shift($results);  // grab the first one
+    $refunds = $paginatedResults->getResults();
+    $refund = array_shift($refunds);  // grab the first one
 
     echo $refund->getPaymentId() . ' '
         . $refund->getCreatedDate() . ' '

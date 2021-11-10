@@ -49,15 +49,15 @@ class ApiResponseTest extends AbstractTestCase
         $this->assertEquals(self::ERROR_DESCRIPTION, $apiResponse->getErrorDescription());
     }
 
-    public function testItReturnsStructuredResponseForSingleRecordResponse()
+    public function testThatGetBodyIsPopulatedForSingleRecordResponse()
     {
         $apiResponse = new ApiResponse(
             new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_ARRAY))
         );
         $this->assertTrue($apiResponse->isSuccessful());
-        $this->assertIsArray($apiResponse->fetchOne());
-        $this->assertArrayHasKey('amount', $apiResponse->fetchOne());
-        $this->assertEquals($apiResponse->fetchOne()['amount'], self::PAYMENT_AMOUNT);
+        $this->assertIsArray($apiResponse->getBody());
+        $this->assertArrayHasKey('amount', $apiResponse->getBody());
+        $this->assertEquals($apiResponse->getBody()['amount'], self::PAYMENT_AMOUNT);
     }
 
     public function testItReturnsStructuredResponseForEmptySearchResponse()
@@ -66,8 +66,8 @@ class ApiResponseTest extends AbstractTestCase
             new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode([]))
         );
         $this->assertTrue($apiResponse->isSuccessful());
-        $this->assertIsArray($apiResponse->fetchAll());
-        $this->assertEmpty($apiResponse->fetchAll());
+        $this->assertIsArray($apiResponse->getBody());
+        $this->assertEquals([], $apiResponse->getBody());
     }
 
     public function testItReturnsStructuredResponseForSearchResponse()
@@ -76,16 +76,8 @@ class ApiResponseTest extends AbstractTestCase
             new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_SEARCH_RESULTS_ARRAY))
         );
         $this->assertTrue($apiResponse->isSuccessful());
-        $this->assertIsArray($apiResponse->fetchAll());
-        $this->assertNotEmpty($apiResponse->fetchAll());
-        $this->assertEquals(self::SEARCH_RESULTS_COUNT, $apiResponse->getCount());
-        $this->assertEquals(self::SEARCH_RESULTS_PAGE, $apiResponse->getPage());
-        $this->assertEquals(self::SEARCH_RESULTS_TOTAL, $apiResponse->getTotal());
-        $this->assertEquals(self::SEARCH_LINKS_SELF_HREF, $apiResponse->getCurrentPageUri());
-        $this->assertEquals(self::SEARCH_LINKS_FIRST_HREF, $apiResponse->getFirstPageUri());
-        $this->assertEquals(self::SEARCH_LINKS_PREV_HREF, $apiResponse->getPrevPageUri());
-        $this->assertEquals(self::SEARCH_LINKS_NEXT_HREF, $apiResponse->getNextPageUri());
-        $this->assertEquals(self::SEARCH_LINKS_LAST_HREF, $apiResponse->getLastPageUri());
-        $this->assertEquals(self::PAYMENT_ARRAY, $apiResponse->fetchAll()[0]);
+        $this->assertIsArray($apiResponse->getBody());
+        $this->assertNotEmpty($apiResponse->getBody());
+        $this->assertEquals(self::PAYMENT_SEARCH_RESULTS_ARRAY, $apiResponse->getBody());
     }
 }

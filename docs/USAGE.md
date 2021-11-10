@@ -60,8 +60,8 @@ try {
 
 ```
 try {
-    /** @var Payment[] $results */
-    $results = $govPayClient
+    /** @var PaginatedResults $paginatedResults */
+    $paginatedResults = $govPayClient
         ->getRepository(Payment::class) /** @var PaymentRepository */
         ->setFromDate('2021-10-01 00:00:00')
         ->setToDate('2021-10-31 23:59:59')
@@ -81,8 +81,8 @@ try {
 
 ```
 try {
-    /** @var Refund[] $results */
-    $results = $govPayClient
+    /** @var PaginatedResults $paginatedResults */
+    $paginatedResults = $govPayClient
         ->getRepository(Refund::class) /** @var RefundRepository */
         ->setFromDate('2021-10-01 00:00:00')
         ->setToDate('2021-10-31 23:59:59')
