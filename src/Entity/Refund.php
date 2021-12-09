@@ -9,7 +9,7 @@ class Refund implements ArrayToEntityInterface
     /**
      * @var string
      */
-    private $paymentId;
+    private $paymentId = '';
 
     /**
      * @var string

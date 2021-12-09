@@ -21,8 +21,16 @@ try {
         ->getRepository(Payment::class) /** @var PaymentRepository */
         ->find('INSERT-PAYMENT-ID');
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
 }
 ```
 
@@ -35,8 +43,16 @@ try {
         ->getRepository(Payment::class) /** @var PaymentRepository */
         ->fetchPaymentEvents('INSERT-PAYMENT-ID');
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
 }
 ```
 
@@ -49,8 +65,16 @@ try {
         ->getRepository(Payment::class) /** @var PaymentRepository */
         ->fetchPaymentRefunds('INSERT-PAYMENT-ID');
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
 }
 ```
 
@@ -68,8 +92,17 @@ try {
         ->setPerPage(20)
         ->fetchAll();
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
+    // ValidationException
 }
 ```
 
@@ -89,8 +122,17 @@ try {
         ->setPerPage(20)
         ->fetchAll();
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
+    // ValidationException
 }
 ```
 

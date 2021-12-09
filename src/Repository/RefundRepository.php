@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace LBHounslow\GovPay\Repository;
 
-use GuzzleHttp\Exception\GuzzleException;
 use LBHounslow\GovPay\Client\Client;
 use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Refund;
+use LBHounslow\GovPay\Exception\ApiErrorResponseException;
 use LBHounslow\GovPay\Exception\ApiException;
 use LBHounslow\GovPay\Exception\InvalidEntityClassException;
 use LBHounslow\GovPay\Exception\ValidationException;
@@ -27,8 +27,8 @@ class RefundRepository extends BaseEntityRepository
 
     /**
      * @return PaginatedResults
+     * @throws ApiErrorResponseException
      * @throws ApiException
-     * @throws GuzzleException
      * @throws InvalidEntityClassException
      * @throws ValidationException
      */
@@ -36,6 +36,10 @@ class RefundRepository extends BaseEntityRepository
     {
         /** @var ApiResponse $response */
         $response = $this->client->get(Client::SEARCH_REFUNDS . $this->queryStringBuilder->build());
+
+        if (!$response->isSuccessful()) {
+            throw new ApiErrorResponseException($response);
+        }
 
         $paginatedResults = (new PaginatedResults())
             ->fromArray($response->getBody());

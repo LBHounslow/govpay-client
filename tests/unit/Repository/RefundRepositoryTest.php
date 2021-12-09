@@ -9,6 +9,7 @@ use LBHounslow\GovPay\Client\Client as GovPayClient;
 use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Refund;
 use LBHounslow\GovPay\Enum\HttpStatusCodeEnum;
+use LBHounslow\GovPay\Exception\ApiErrorResponseException;
 use LBHounslow\GovPay\Repository\RefundRepository;
 use LBHounslow\GovPay\Response\ApiResponse;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -39,6 +40,20 @@ class RefundRepositoryTest extends AbstractTestCase
     public function testItReturnsEntityClass()
     {
         $this->assertEquals(Refund::class, $this->refundRepository->getEntityClass());
+    }
+
+    public function testThatFetchAllThrowsApiErrorExceptionForErrorResponse()
+    {
+        $this->expectException(ApiErrorResponseException::class);
+        $this->expectExceptionMessage(self::ERROR_DESCRIPTION);
+        $this->mockGovPayClient
+            ->method('get')
+            ->willReturn(
+                new ApiResponse(
+                    new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD))
+                )
+            );
+        $this->refundRepository->fetchAll();
     }
 
     public function testThatFetchAllWithWithNoResponseDataReturnsEmptyPaginatedResults()

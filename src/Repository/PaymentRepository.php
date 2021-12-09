@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace LBHounslow\GovPay\Repository;
 
-use GuzzleHttp\Exception\GuzzleException;
 use LBHounslow\GovPay\Client\Client;
 use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Entity\PaymentEvent;
 use LBHounslow\GovPay\Entity\Refund;
+use LBHounslow\GovPay\Exception\ApiErrorResponseException;
 use LBHounslow\GovPay\Exception\ApiException;
 use LBHounslow\GovPay\Exception\InvalidEntityClassException;
 use LBHounslow\GovPay\Exception\ValidationException;
@@ -100,14 +100,18 @@ class PaymentRepository extends BaseEntityRepository
     /**
      * @param string $id
      * @return Payment
+     * @throws ApiErrorResponseException
      * @throws ApiException
-     * @throws GuzzleException
      * @throws InvalidEntityClassException
      */
     public function find(string $id)
     {
         /** @var ApiResponse $response */
         $response = $this->client->get(sprintf(Client::PAYMENT, $id));
+
+        if (!$response->isSuccessful()) {
+            throw new ApiErrorResponseException($response);
+        }
 
         /** @var Payment $payment */
         $payment = (new ArrayToEntityFactory($response->getBody(), Payment::class))->factory();
@@ -118,8 +122,8 @@ class PaymentRepository extends BaseEntityRepository
     /**
      * @param string $id
      * @return array
+     * @throws ApiErrorResponseException
      * @throws ApiException
-     * @throws GuzzleException
      * @throws InvalidEntityClassException
      */
     public function fetchPaymentEvents(string $id)
@@ -128,6 +132,10 @@ class PaymentRepository extends BaseEntityRepository
 
         /** @var ApiResponse $response */
         $response = $this->client->get(sprintf(Client::PAYMENT_EVENTS, $id));
+
+        if (!$response->isSuccessful()) {
+            throw new ApiErrorResponseException($response);
+        }
 
         /** @var array $row */
         foreach ($response->getBody() as $row) {
@@ -142,8 +150,8 @@ class PaymentRepository extends BaseEntityRepository
     /**
      * @param string $id
      * @return array
+     * @throws ApiErrorResponseException
      * @throws ApiException
-     * @throws GuzzleException
      * @throws InvalidEntityClassException
      */
     public function fetchPaymentRefunds(string $id)
@@ -152,6 +160,10 @@ class PaymentRepository extends BaseEntityRepository
 
         /** @var ApiResponse $response */
         $response = $this->client->get(sprintf(Client::PAYMENT_REFUNDS, $id));
+
+        if (!$response->isSuccessful()) {
+            throw new ApiErrorResponseException($response);
+        }
 
         /** @var array $row */
         foreach ($response->getBody() as $row) {
@@ -166,8 +178,8 @@ class PaymentRepository extends BaseEntityRepository
 
     /**
      * @return PaginatedResults
+     * @throws ApiErrorResponseException
      * @throws ApiException
-     * @throws GuzzleException
      * @throws InvalidEntityClassException
      * @throws ValidationException
      */
@@ -175,6 +187,10 @@ class PaymentRepository extends BaseEntityRepository
     {
         /** @var ApiResponse $response */
         $response = $this->client->get(Client::SEARCH_PAYMENTS . $this->queryStringBuilder->build());
+
+        if (!$response->isSuccessful()) {
+            throw new ApiErrorResponseException($response);
+        }
 
         $paginatedResults = (new PaginatedResults())
             ->fromArray($response->getBody());

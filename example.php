@@ -7,6 +7,7 @@ use LBHounslow\GovPay\Entity\PaginatedResults;
 use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Entity\PaymentEvent;
 use LBHounslow\GovPay\Entity\Refund;
+use LBHounslow\GovPay\Exception\ApiErrorResponseException;
 use LBHounslow\GovPay\Repository\PaymentRepository;
 use LBHounslow\GovPay\Repository\RefundRepository;
 
@@ -29,9 +30,16 @@ try {
     echo $payment->getPaymentId() . ' '
         . $payment->getDescription() . ' '
         . $payment->getCreatedDate() . PHP_EOL;
-
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
 }
 
 /*** FETCH A PAYMENTS EVENTS **/
@@ -48,8 +56,16 @@ try {
         . $paymentEvent->getState()->getStatus()
         . ($paymentEvent->getState()->isFinished() ? ' is finished' : '') . PHP_EOL;
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
 }
 
 /*** FETCH A PAYMENTS REFUNDS **/
@@ -67,8 +83,16 @@ try {
         . $refund->getAmount() . ' '
         . $refund->getStatus() . PHP_EOL;
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
 }
 
 /*** SEARCH ALL PAYMENTS **/
@@ -89,8 +113,16 @@ try {
         . $payment->getDescription() . ' '
         . $payment->getCreatedDate() . PHP_EOL;
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
 }
 
 /*** SEARCH ALL REFUNDS **/
@@ -112,7 +144,16 @@ try {
         . $refund->getAmount() . ' '
         . $refund->getStatus() . PHP_EOL;
 
+} catch (ApiErrorResponseException $ae) {
+    // Handle
+    // $ae->getApiResponse()
+    // $ae->getErrorDescription()
+    // $ae->getErrorCode()
+    // $ae->getErrorField()
 } catch (\Exception $e) {
     // Handle $e
+    // ApiException
+    // InvalidEntityClassException
+    // ValidationException
 }
 
