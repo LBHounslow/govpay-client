@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace LBHounslow\GovPay\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use GuzzleHttp\RequestOptions;
 use LBHounslow\GovPay\Enum\HttpStatusCodeEnum;
@@ -69,8 +68,6 @@ class Client
      * @param array $data
      * @return ApiResponse
      * @throws ApiException
-     * @throws GuzzleException
-     * @throws \Exception
      */
     public function post(string $endpoint, array $data = [])
     {
@@ -102,8 +99,6 @@ class Client
      * @param string $endpoint
      * @return ApiResponse
      * @throws ApiException
-     * @throws GuzzleException
-     * @throws \Exception
      */
     public function get(string $endpoint)
     {
