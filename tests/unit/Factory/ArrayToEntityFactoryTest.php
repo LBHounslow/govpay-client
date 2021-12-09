@@ -36,9 +36,10 @@ class ArrayToEntityFactoryTest extends AbstractTestCase
 
     public function testItReturnsPopulatedClassInstanceFromEntityClassNameWithData()
     {
-        $result = (new ArrayToEntityFactory(self::REFUND_ARRAY, Refund::class))->factory();
+        $result = (new ArrayToEntityFactory(self::REFUND_ARRAY_WITH_PAYMENT_LINK, Refund::class))->factory();
         $this->assertInstanceOf(Refund::class, $result);
         $this->assertEquals(self::REFUND_REFUND_ID, $result->getRefundId());
+        $this->assertEquals(self::REFUND_PAYMENT_ID, $result->getPaymentId());
         $this->assertEquals(self::REFUND_CREATED_DATE, $result->getCreatedDate());
         $this->assertEquals(self::REFUND_AMOUNT, $result->getAmount());
         $this->assertEquals(self::REFUND_STATUS_SUCCESS, $result->getStatus());
