@@ -35,16 +35,6 @@ class ApiErrorResponseException extends \Exception
     }
 
     /**
-     * @param ApiResponse $apiResponse
-     * @return ApiErrorResponseException
-     */
-    public function setApiResponse(ApiResponse $apiResponse): ApiErrorResponseException
-    {
-        $this->apiResponse = $apiResponse;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getErrorDescription(): string
