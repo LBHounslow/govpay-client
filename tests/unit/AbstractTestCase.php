@@ -183,12 +183,13 @@ abstract class AbstractTestCase extends TestCase
     ];
 
     const REFUND_REFUND_ID = 'act4c33g40j3edfmi8jknab84x';
+    const REFUND_PAYMENT_ID = '5chu1yzxglqajfv97ous23s22i';
     const REFUND_CREATED_DATE = '2021-11-07T14:08:26.988Z';
     const REFUND_AMOUNT = 120;
     const REFUND_STATUS_SUCCESS = 'success';
     const REFUND_SETTLEMENT_SUMMARY_SETTLED_DATE = '2021-11-06';
 
-    const REFUND_ARRAY = [
+    const REFUND_ARRAY_NO_PAYMENT_LINK = [
         'refund_id' => self::REFUND_REFUND_ID,
         'created_date' => self::REFUND_CREATED_DATE,
         'amount' => self::REFUND_AMOUNT,
@@ -198,11 +199,36 @@ abstract class AbstractTestCase extends TestCase
         ]
     ];
 
-    const PAYMENT_REFUNDS_RESULTS_ARRAY = [
+    const REFUND_ARRAY_WITH_PAYMENT_LINK = [
+        'refund_id' => self::REFUND_REFUND_ID,
+        'created_date' => self::REFUND_CREATED_DATE,
+        'amount' => self::REFUND_AMOUNT,
+        'status' => self::REFUND_STATUS_SUCCESS,
+        'settlement_summary' => [
+            'settled_date' => self::REFUND_SETTLEMENT_SUMMARY_SETTLED_DATE
+        ],
+        '_links' => [
+            'payment' => [
+                'href' => 'https://publicapi.payments.service.gov.uk/v1/payments/5chu1yzxglqajfv97ous23s22i',
+                'method' => 'GET',
+            ]
+        ]
+    ];
+
+    const PAYMENT_REFUNDS_RESULTS_ARRAY_NO_PAYMENT_LINK = [
         'payment_id' => self::PAYMENT_PAYMENT_ID,
         '_embedded' => [
             'refunds' => [
-                self::REFUND_ARRAY
+                self::REFUND_ARRAY_NO_PAYMENT_LINK
+            ]
+        ]
+    ];
+
+    const PAYMENT_REFUNDS_RESULTS_ARRAY_WITH_PAYMENT_LINK = [
+        'payment_id' => self::PAYMENT_PAYMENT_ID,
+        '_embedded' => [
+            'refunds' => [
+                self::REFUND_ARRAY_WITH_PAYMENT_LINK
             ]
         ]
     ];
@@ -212,7 +238,7 @@ abstract class AbstractTestCase extends TestCase
         'count' => self::SEARCH_RESULTS_COUNT,
         'page' => self::SEARCH_RESULTS_PAGE,
         'results' => [
-            self::REFUND_ARRAY
+            self::REFUND_ARRAY_WITH_PAYMENT_LINK
         ],
         '_links' => [
             'self' => [

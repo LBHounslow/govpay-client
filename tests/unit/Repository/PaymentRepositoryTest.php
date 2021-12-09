@@ -11,6 +11,7 @@ use LBHounslow\GovPay\Entity\Payment;
 use LBHounslow\GovPay\Entity\PaymentEvent;
 use LBHounslow\GovPay\Entity\Refund;
 use LBHounslow\GovPay\Enum\HttpStatusCodeEnum;
+use LBHounslow\GovPay\Exception\ApiErrorResponseException;
 use LBHounslow\GovPay\Repository\PaymentRepository;
 use LBHounslow\GovPay\Response\ApiResponse;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -43,6 +44,20 @@ class PaymentRepositoryTest extends AbstractTestCase
         $this->assertEquals(Payment::class, $this->paymentRepository->getEntityClass());
     }
 
+    public function testThatFindThrowsApiErrorExceptionForErrorResponse()
+    {
+        $this->expectException(ApiErrorResponseException::class);
+        $this->expectExceptionMessage(self::ERROR_DESCRIPTION);
+        $this->mockGovPayClient
+            ->method('get')
+            ->willReturn(
+                new ApiResponse(
+                    new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD))
+                )
+            );
+        $this->paymentRepository->find(self::PAYMENT_PAYMENT_ID);
+    }
+
     public function testItFindsAndReturnsSinglePaymentEntity()
     {
         $this->mockGovPayClient
@@ -55,6 +70,20 @@ class PaymentRepositoryTest extends AbstractTestCase
         $result = $this->paymentRepository->find(self::PAYMENT_PAYMENT_ID);
         $this->assertInstanceOf(Payment::class, $result);
         $this->assertEquals(self::PAYMENT_PAYMENT_ID, $result->getPaymentId());
+    }
+
+    public function testThatFetchPaymentEventsThrowsApiErrorExceptionForErrorResponse()
+    {
+        $this->expectException(ApiErrorResponseException::class);
+        $this->expectExceptionMessage(self::ERROR_DESCRIPTION);
+        $this->mockGovPayClient
+            ->method('get')
+            ->willReturn(
+                new ApiResponse(
+                    new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD))
+                )
+            );
+        $this->paymentRepository->fetchPaymentEvents(self::PAYMENT_PAYMENT_ID);
     }
 
     public function testItFetchesPaymentEventsForPayment()
@@ -72,13 +101,27 @@ class PaymentRepositoryTest extends AbstractTestCase
         $this->assertEquals(self::PAYMENT_PAYMENT_ID, $result[0]->getPaymentId());
     }
 
+    public function testThatFetchPaymentRefundsThrowsApiErrorExceptionForErrorResponse()
+    {
+        $this->expectException(ApiErrorResponseException::class);
+        $this->expectExceptionMessage(self::ERROR_DESCRIPTION);
+        $this->mockGovPayClient
+            ->method('get')
+            ->willReturn(
+                new ApiResponse(
+                    new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD))
+                )
+            );
+        $this->paymentRepository->fetchPaymentRefunds(self::PAYMENT_PAYMENT_ID);
+    }
+
     public function testItFetchesPaymentRefundsForPayment()
     {
         $this->mockGovPayClient
             ->method('get')
             ->willReturn(
                 new ApiResponse(
-                    new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_REFUNDS_RESULTS_ARRAY))
+                    new GuzzleResponse(HttpStatusCodeEnum::OK, [], json_encode(self::PAYMENT_REFUNDS_RESULTS_ARRAY_WITH_PAYMENT_LINK))
                 )
             );
         $result = $this->paymentRepository->fetchPaymentRefunds(self::PAYMENT_PAYMENT_ID);
@@ -86,6 +129,20 @@ class PaymentRepositoryTest extends AbstractTestCase
         $this->assertTrue(isset($result[0]));
         $this->assertInstanceOf(Refund::class, $result[0]);
         $this->assertEquals(self::REFUND_REFUND_ID, $result[0]->getRefundId());
+    }
+
+    public function testThatFetchAllThrowsApiErrorExceptionForErrorResponse()
+    {
+        $this->expectException(ApiErrorResponseException::class);
+        $this->expectExceptionMessage(self::ERROR_DESCRIPTION);
+        $this->mockGovPayClient
+            ->method('get')
+            ->willReturn(
+                new ApiResponse(
+                    new GuzzleResponse(HttpStatusCodeEnum::BAD_REQUEST, [], json_encode(self::ERROR_RESPONSE_WITH_FIELD))
+                )
+            );
+        $this->paymentRepository->fetchAll();
     }
 
     public function testThatFetchAllWithWithNoResponseDataReturnsEmptyPaginatedResults()
