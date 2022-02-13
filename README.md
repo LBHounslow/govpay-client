@@ -24,12 +24,12 @@ Run `composer test`
 
 ```
 Code Coverage Report:      
-  2021-12-09 13:43:46      
+  2022-02-13 15:57:50      
                            
  Summary:                  
   Classes: 65.38% (17/26)  
-  Methods: 87.61% (191/218)
-  Lines:   90.76% (501/552)
+  Methods: 88.48% (192/217)
+  Lines:   91.27% (502/550)
 ```
 
 ### Contributing

@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Entity;
 
+use LBHounslow\GovPay\Entity\AuthorisationSummary;
+use LBHounslow\GovPay\Entity\CardDetails;
+use LBHounslow\GovPay\Entity\Link;
 use LBHounslow\GovPay\Entity\Payment;
+use LBHounslow\GovPay\Entity\PaymentState;
+use LBHounslow\GovPay\Entity\RefundSummary;
+use LBHounslow\GovPay\Entity\SettlementSummary;
 use Tests\Unit\AbstractTestCase;
 
 class PaymentTest extends AbstractTestCase
@@ -18,6 +24,78 @@ class PaymentTest extends AbstractTestCase
     {
         $this->payment = new Payment();
         parent::setUp();
+    }
+
+    public function testSettersAndGetters()
+    {
+        $this->payment->setCreatedDate('2022-02-09 00:00:00');
+        $this->assertEquals('2022-02-09 00:00:00', $this->payment->getCreatedDate());
+
+        $this->payment->setAmount(123);
+        $this->assertEquals(123, $this->payment->getAmount());
+
+        $this->payment->setState(new PaymentState());
+        $this->assertInstanceOf(PaymentState::class, $this->payment->getState());
+
+        $this->payment->setDescription('description');
+        $this->assertEquals('description', $this->payment->getDescription());
+
+        $this->payment->setReference('payment-ref');
+        $this->assertEquals('payment-ref', $this->payment->getReference());
+
+        $this->payment->setLanguage('en');
+        $this->assertEquals('en', $this->payment->getLanguage());
+
+        $this->payment->setData([1, 2, 3]);
+        $this->assertEquals([1, 2, 3], $this->payment->getData());
+
+        $this->payment->setEmail('test@domain.com');
+        $this->assertEquals('test@domain.com', $this->payment->getEmail());
+
+        $this->payment->setCardDetails(new CardDetails());
+        $this->assertInstanceOf(CardDetails::class, $this->payment->getCardDetails());
+
+        $this->payment->setRefundSummary(new RefundSummary());
+        $this->assertInstanceOf(RefundSummary::class, $this->payment->getRefundSummary());
+
+        $this->payment->setSettlementSummary(new SettlementSummary());
+        $this->assertInstanceOf(SettlementSummary::class, $this->payment->getSettlementSummary());
+
+        $this->payment->setDelayedCapture(true);
+        $this->assertTrue($this->payment->isDelayedCapture());
+
+        $this->payment->setMoto(true);
+        $this->assertTrue($this->payment->isMoto());
+
+        $this->payment->setCorporateCardSurcharge(123);
+        $this->assertEquals(123, $this->payment->getCorporateCardSurcharge());
+
+        $this->payment->setTotalAmount(123);
+        $this->assertEquals(123, $this->payment->getTotalAmount());
+
+        $this->payment->setFee(123);
+        $this->assertEquals(123, $this->payment->getFee());
+
+        $this->payment->setNetAmount(123);
+        $this->assertEquals(123, $this->payment->getNetAmount());
+
+        $this->payment->setPaymentProvider('payment-provider');
+        $this->assertEquals('payment-provider', $this->payment->getPaymentProvider());
+
+        $this->payment->setProviderId('provider-id');
+        $this->assertEquals('provider-id', $this->payment->getProviderId());
+
+        $this->payment->setPaymentId('payment-id');
+        $this->assertEquals('payment-id', $this->payment->getPaymentId());
+
+        $this->payment->setAuthorisationSummary(new AuthorisationSummary());
+        $this->assertInstanceOf(AuthorisationSummary::class, $this->payment->getAuthorisationSummary());
+
+        $this->payment->setReturnUrl('https://test.url');
+        $this->assertEquals('https://test.url', $this->payment->getReturnUrl());
+
+        $this->payment->setLinks([(new Link())->setHref('https://test.url')]);
+        $this->assertEquals([(new Link())->setHref('https://test.url')], $this->payment->getLinks());
     }
 
     public function testThatEntityLoadsWithEmptyArray()

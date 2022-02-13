@@ -2,6 +2,14 @@
 
 ## Changelog
 
+### Release v1.3.0 `13/02/2022`
+
+Fixes:
+- Added fix for `PaymentRepository->setReference()` method.
+
+Updates:
+- Additional unit test coverage added for setters and getters in all entities.
+
 ### Release v1.2.0 `09/12/2021`
 
 Updates:

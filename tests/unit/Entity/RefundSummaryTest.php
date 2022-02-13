@@ -20,6 +20,18 @@ class RefundSummaryTest extends AbstractTestCase
         parent::setUp();
     }
 
+    public function testSettersAndGetters()
+    {
+        $this->refundSummary->setStatus('success');
+        $this->assertEquals('success', $this->refundSummary->getStatus());
+
+        $this->refundSummary->setAmountAvailable(123);
+        $this->assertEquals(123, $this->refundSummary->getAmountAvailable());
+
+        $this->refundSummary->setAmountSubmitted(123);
+        $this->assertEquals(123, $this->refundSummary->getAmountSubmitted());
+    }
+
     public function testThatEntityLoadsWithEmptyArray()
     {
         $result = $this->refundSummary->fromArray([]);

@@ -43,7 +43,7 @@ class PaymentRepository extends BaseEntityRepository
      */
     public function setReference(string $reference): PaymentRepository
     {
-        $this->queryStringBuilder->$this->setReference($reference);
+        $this->queryStringBuilder->setReference($reference);
         return $this;
     }
 

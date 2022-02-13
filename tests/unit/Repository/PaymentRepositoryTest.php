@@ -44,6 +44,20 @@ class PaymentRepositoryTest extends AbstractTestCase
         $this->assertEquals(Payment::class, $this->paymentRepository->getEntityClass());
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testSetters()
+    {
+        $this->paymentRepository->setCardBrand('visa');
+        $this->paymentRepository->setReference('reference-123');
+        $this->paymentRepository->setEmail('test@domain.com');
+        $this->paymentRepository->setCardholderName('Test Person');
+        $this->paymentRepository->setState('success');
+        $this->paymentRepository->setFirstDigitsCardNumber('1234');
+        $this->paymentRepository->setLastDigitsCardNumber('7890');
+    }
+
     public function testThatFindThrowsApiErrorExceptionForErrorResponse()
     {
         $this->expectException(ApiErrorResponseException::class);

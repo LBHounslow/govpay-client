@@ -20,6 +20,12 @@ class AuthorisationSummaryTest extends AbstractTestCase
         parent::setUp();
     }
 
+    public function testSettersAndGetters()
+    {
+        $this->authorisationSummary->setThreeDSecureRequired(true);
+        $this->assertTrue($this->authorisationSummary->isThreeDSecureRequired());
+    }
+
     public function testThatEntityLoadsWithEmptyArray()
     {
         $result = $this->authorisationSummary->fromArray([]);

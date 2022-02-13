@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Entity;
 
 use LBHounslow\GovPay\Entity\Refund;
+use LBHounslow\GovPay\Entity\SettlementSummary;
 use Tests\Unit\AbstractTestCase;
 
 class RefundTest extends AbstractTestCase
@@ -18,6 +19,27 @@ class RefundTest extends AbstractTestCase
     {
         $this->refund = new Refund();
         parent::setUp();
+    }
+
+    public function testSettersAndGetters()
+    {
+        $this->refund->setPaymentId('payment-id');
+        $this->assertEquals('payment-id', $this->refund->getPaymentId());
+
+        $this->refund->setRefundId('refund-id');
+        $this->assertEquals('refund-id', $this->refund->getRefundId());
+
+        $this->refund->setCreatedDate('2022-02-09');
+        $this->assertEquals('2022-02-09', $this->refund->getCreatedDate());
+
+        $this->refund->setAmount(123);
+        $this->assertEquals(123, $this->refund->getAmount());
+
+        $this->refund->setStatus('finished');
+        $this->assertEquals('finished', $this->refund->getStatus());
+
+        $this->refund->setSettlementSummary(new SettlementSummary());
+        $this->assertInstanceOf(SettlementSummary::class, $this->refund->getSettlementSummary());
     }
 
     public function testThatEntityLoadsWithEmptyArray()

@@ -26,6 +26,21 @@ class PaymentStateTest extends AbstractTestCase
         $this->assertInstanceOf(PaymentState::class, $result);
     }
 
+    public function testSettersAndGetters()
+    {
+        $this->paymentState->setStatus('success');
+        $this->assertEquals('success', $this->paymentState->getStatus());
+
+        $this->paymentState->setFinished(true);
+        $this->assertTrue($this->paymentState->isFinished());
+
+        $this->paymentState->setMessage('here is a message');
+        $this->assertEquals('here is a message', $this->paymentState->getMessage());
+
+        $this->paymentState->setCode('400');
+        $this->assertEquals('400', $this->paymentState->getCode());
+    }
+
     public function testThatEntityLoadsRefundSummaryDataCorrectly()
     {
         $result = $this->paymentState->fromArray(

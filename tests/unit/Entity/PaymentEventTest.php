@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Entity;
 
 use LBHounslow\GovPay\Entity\PaymentEvent;
+use LBHounslow\GovPay\Entity\PaymentState;
 use Tests\Unit\AbstractTestCase;
 
 class PaymentEventTest extends AbstractTestCase
@@ -18,6 +19,18 @@ class PaymentEventTest extends AbstractTestCase
     {
         $this->paymentEvent = new PaymentEvent();
         parent::setUp();
+    }
+
+    public function testSettersAndGetters()
+    {
+        $this->paymentEvent->setPaymentId('payment-id');
+        $this->assertEquals('payment-id', $this->paymentEvent->getPaymentId());
+
+        $this->paymentEvent->setUpdated('09-02-2022');
+        $this->assertEquals('09-02-2022', $this->paymentEvent->getUpdated());
+
+        $this->paymentEvent->setState(new PaymentState());
+        $this->assertInstanceOf(PaymentState::class, $this->paymentEvent->getState());
     }
 
     public function testThatEntityLoadsWithEmptyArray()
