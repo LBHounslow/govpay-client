@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Entity;
 
+use LBHounslow\GovPay\Entity\CardBillingAddress;
 use LBHounslow\GovPay\Entity\CardDetails;
 use Tests\Unit\AbstractTestCase;
 
@@ -18,6 +19,30 @@ class CardDetailsTest extends AbstractTestCase
     {
         $this->cardDetails = new CardDetails();
         parent::setUp();
+    }
+
+    public function testSettersAndGetters()
+    {
+        $this->cardDetails->setCardBrand('visa');
+        $this->assertEquals('visa', $this->cardDetails->getCardBrand());
+
+        $this->cardDetails->setCardType('debit');
+        $this->assertEquals('debit', $this->cardDetails->getCardType());
+
+        $this->cardDetails->setFirstDigitsCardNumber('1234');
+        $this->assertEquals('1234', $this->cardDetails->getFirstDigitsCardNumber());
+
+        $this->cardDetails->setLastDigitsCardNumber('7890');
+        $this->assertEquals('7890', $this->cardDetails->getLastDigitsCardNumber());
+
+        $this->cardDetails->setExpiryDate('09/29');
+        $this->assertEquals('09/29', $this->cardDetails->getExpiryDate());
+
+        $this->cardDetails->setCardHolderName('Test Person');
+        $this->assertEquals('Test Person', $this->cardDetails->getCardHolderName());
+
+        $this->cardDetails->setCardBillingAddress(new CardBillingAddress());
+        $this->assertInstanceOf(CardBillingAddress::class, $this->cardDetails->getCardBillingAddress());
     }
 
     public function testThatEntityLoadsWithEmptyArray()

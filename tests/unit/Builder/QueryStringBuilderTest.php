@@ -22,6 +22,26 @@ class QueryStringBuilderTest extends AbstractTestCase
     }
 
     /**
+     * @doesNotPerformAssertions
+     */
+    public function testSetters()
+    {
+        $this->queryStringBuilder->setPage(1);
+        $this->queryStringBuilder->setPerPage(20);
+        $this->queryStringBuilder->setFromDate('2022-02-09 00:00:00');
+        $this->queryStringBuilder->setToDate('2022-02-10 00:00:00');
+        $this->queryStringBuilder->setFromSettledDate('2022-02-09');
+        $this->queryStringBuilder->setToSettledDate('2022-02-10');
+        $this->queryStringBuilder->setEmail('test@domain.com');
+        $this->queryStringBuilder->setReference('reference-123');
+        $this->queryStringBuilder->setState('success');
+        $this->queryStringBuilder->setCardBrand('visa');
+        $this->queryStringBuilder->setCardholderName('Test Person');
+        $this->queryStringBuilder->setFirstDigitsCardNumber('1234');
+        $this->queryStringBuilder->setLastDigitsCardNumber('7890');
+    }
+
+    /**
      * @param string $attribute
      * @param mixed $value
      * @param string $expectedQueryString

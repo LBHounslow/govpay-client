@@ -20,6 +20,18 @@ class SettlementSummaryTest extends AbstractTestCase
         parent::setUp();
     }
 
+    public function testSettersAndGetters()
+    {
+        $this->settlementSummary->setCaptureSubmitTime('2022-02-09');
+        $this->assertEquals('2022-02-09', $this->settlementSummary->getCaptureSubmitTime());
+
+        $this->settlementSummary->setCapturedDate('2022-02-09');
+        $this->assertEquals('2022-02-09', $this->settlementSummary->getCapturedDate());
+
+        $this->settlementSummary->setSettledDate('2022-02-09');
+        $this->assertEquals('2022-02-09', $this->settlementSummary->getSettledDate());
+    }
+
     public function testThatEntityLoadsWithEmptyArray()
     {
         $result = $this->settlementSummary->fromArray([]);

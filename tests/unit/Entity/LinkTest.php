@@ -20,6 +20,24 @@ class LinkTest extends AbstractTestCase
         parent::setUp();
     }
 
+    public function testSettersAndGetters()
+    {
+        $this->link->setName('link name');
+        $this->assertEquals('link name', $this->link->getName());
+
+        $this->link->setType('type');
+        $this->assertEquals('type', $this->link->getType());
+
+        $this->link->setParams([1,2,3]);
+        $this->assertEquals([1,2,3], $this->link->getParams());
+
+        $this->link->setHref('http://test.url');
+        $this->assertEquals('http://test.url', $this->link->getHref());
+
+        $this->link->setMethod('method');
+        $this->assertEquals('method', $this->link->getMethod());
+    }
+
     public function testThatEntityLoadsWithEmptyArray()
     {
         $result = $this->link->fromArray([]);

@@ -39,12 +39,12 @@ class CardDetails implements ArrayToEntityInterface
     /**
      * @var string
      */
-    private $lastDigitsCardNumber = '';
+    private $firstDigitsCardNumber = '';
 
     /**
      * @var string
      */
-    private $firstDigitsCardNumber = '';
+    private $lastDigitsCardNumber = '';
 
     /**
      * @var string
@@ -100,24 +100,6 @@ class CardDetails implements ArrayToEntityInterface
     /**
      * @return string
      */
-    public function getLastDigitsCardNumber(): string
-    {
-        return $this->lastDigitsCardNumber;
-    }
-
-    /**
-     * @param string $lastDigitsCardNumber
-     * @return CardDetails
-     */
-    public function setLastDigitsCardNumber(string $lastDigitsCardNumber): CardDetails
-    {
-        $this->lastDigitsCardNumber = $lastDigitsCardNumber;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getFirstDigitsCardNumber(): string
     {
         return $this->firstDigitsCardNumber;
@@ -130,6 +112,24 @@ class CardDetails implements ArrayToEntityInterface
     public function setFirstDigitsCardNumber(string $firstDigitsCardNumber): CardDetails
     {
         $this->firstDigitsCardNumber = $firstDigitsCardNumber;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastDigitsCardNumber(): string
+    {
+        return $this->lastDigitsCardNumber;
+    }
+
+    /**
+     * @param string $lastDigitsCardNumber
+     * @return CardDetails
+     */
+    public function setLastDigitsCardNumber(string $lastDigitsCardNumber): CardDetails
+    {
+        $this->lastDigitsCardNumber = $lastDigitsCardNumber;
         return $this;
     }
 

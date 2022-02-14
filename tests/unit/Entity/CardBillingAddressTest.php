@@ -20,6 +20,24 @@ class CardBillingAddressTest extends AbstractTestCase
         parent::setUp();
     }
 
+    public function testSettersAndGetters()
+    {
+        $this->cardBillingAddress->setLine1('Line 1');
+        $this->assertEquals('Line 1', $this->cardBillingAddress->getLine1());
+
+        $this->cardBillingAddress->setLine2('Line 2');
+        $this->assertEquals('Line 2', $this->cardBillingAddress->getLine2());
+
+        $this->cardBillingAddress->setCity('City');
+        $this->assertEquals('City', $this->cardBillingAddress->getCity());
+
+        $this->cardBillingAddress->setCountry('Country');
+        $this->assertEquals('Country', $this->cardBillingAddress->getCountry());
+
+        $this->cardBillingAddress->setPostCode('TW3 3EB');
+        $this->assertEquals('TW3 3EB', $this->cardBillingAddress->getPostCode());
+    }
+
     public function testThatEntityLoadsWithEmptyArray()
     {
         $result = $this->cardBillingAddress->fromArray([]);
